@@ -12,8 +12,10 @@ phases:
        - aws s3 sync ch2-files/ s3://fotso94-english-assets-bucket-2024/
        - echo "Syncing files to Spanish bucket..."
        - aws s3 sync ch2-files/ s3://fotso94-spanish-assets-bucket-2024/
-       - echo "Running translation..."
+       - echo "Running translation tests..."
        - cd app
+       - python test_translations.py
+       - echo "Running actual translation..."
        - python translate.py en es ../ch2-files/index.html
        - echo "Uploading translated file..."
        - aws s3 cp es-index.html s3://fotso94-spanish-assets-bucket-2024/index.html
