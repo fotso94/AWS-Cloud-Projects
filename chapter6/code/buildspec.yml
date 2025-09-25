@@ -3,8 +3,17 @@ version: 0.2
 phases:
   build:
     commands:
-       - ls
-       - aws s3 sync . s3://my-english-assets-bucket
-       - aws s3 sync . s3://my-spanish-assets-bucket
-       - python translate.py en es index.html
-       - aws s3 cp es-index.html s3://my-spanish-assets-bucket/index.html
+       - echo "Starting build process..."
+       - ls -la
+       - echo "Navigating to chapter6/code directory..."
+       - cd chapter6/code
+       - ls -la
+       - echo "Syncing files to English bucket..."
+       - aws s3 sync ch2-files/ s3://fotso94-english-assets-bucket-2024/
+       - echo "Syncing files to Spanish bucket..."
+       - aws s3 sync ch2-files/ s3://fotso94-spanish-assets-bucket-2024/
+       - echo "Running translation..."
+       - cd app
+       - python translate.py en es ../ch2-files/index.html
+       - echo "Uploading translated file..."
+       - aws s3 cp es-index.html s3://fotso94-spanish-assets-bucket-2024/index.html
